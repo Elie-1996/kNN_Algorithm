@@ -2,12 +2,17 @@ from mlxtend.data import loadlocal_mnist
 import numpy
 
 
-def read_files(images_path, labels_path):
+def read_files(images_path, labels_path, sub_indices_to_consider_path):
     data_set, labels = loadlocal_mnist(
         images_path=images_path,
         labels_path=labels_path
     )
     labels = labels[:, numpy.newaxis]
+    with open(sub_indices_to_consider_path, "r") as fd:
+        lines = fd.read().splitlines()
+    lines = list(map(int, lines))
+    data_set = data_set[lines]
+    labels = labels[lines]
     return data_set, labels
 
 
@@ -44,8 +49,8 @@ def split_data_into_training_and_test_sets(entire_labeled_data, percentage: floa
 
 
 def get_training_and_test_set():
-    data_set1, labels1 = read_files('training_set/train-images.idx3-ubyte', 'training_set/train-labels.idx1-ubyte')
-    data_set2, labels2 = read_files('test_set/t10k-images.idx3-ubyte', 'test_set/t10k-labels.idx1-ubyte')
+    data_set1, labels1 = read_files('training_set/train-images.idx3-ubyte', 'training_set/train-labels.idx1-ubyte', 'training_set/train_indices.txt')
+    data_set2, labels2 = read_files('test_set/t10k-images.idx3-ubyte', 'test_set/t10k-labels.idx1-ubyte', 'test_set/test_indices.txt')
     entire_labeled_data = combine_and_shuffle_data(data_set1, labels1, data_set2, labels2)
     _training_set, _training_label_set, _test_data_set, _test_label_set = split_data_into_training_and_test_sets(
         entire_labeled_data,

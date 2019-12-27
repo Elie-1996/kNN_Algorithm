@@ -16,7 +16,7 @@ def get_classification_error(classified_set, actual_classification):
 
 if __name__ == '__main__':
     training_set, training_label_set, test_data_set, test_label_set = get_training_and_test_set()
-    k = (int)(sqrt(training_set.shape[0]))  # 3-Nearest-Neighbor
+    k = 4  # int(sqrt(training_set.shape[0]))  # 3-Nearest-Neighbor
     classifier = kNN.KnnClassifier(k, training_set, training_label_set)
 
     classified_set = []
@@ -26,7 +26,7 @@ if __name__ == '__main__':
         classified_set.append(classification)
         error_rate = get_classification_error(classified_set, test_label_set) * 100.0
         counter = counter + 1
-        print(counter.__str__() + ': ' + error_rate.__str__())
+        print(counter.__str__() + ': (k = ' + k.__str__() + ') ' + error_rate.__str__())
 
     print("~~~~~~~~~~~")
     error_rate = get_classification_error(classified_set, test_label_set) * 100.0
