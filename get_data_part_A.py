@@ -35,8 +35,10 @@ def split_data_into_training_and_test_sets(entire_labeled_data, percentage: floa
 
     training_data = entire_data_set[0:cut_index, :]
     training_labels = entire_labeled_set[0:cut_index]
+    training_labels = training_labels[:, numpy.newaxis]  # add new axis so its a "2d array"
     test_data = entire_data_set[cut_index:number_of_rows, :]
     test_labels = entire_labeled_set[cut_index:number_of_rows]
+    test_labels = test_labels[:, numpy.newaxis]  # add new axis so its a "2d array"
 
     return training_data, training_labels, test_data, test_labels
 

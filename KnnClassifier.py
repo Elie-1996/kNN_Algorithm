@@ -27,7 +27,8 @@ class KnnClassifier:
 
         closest_k_indices = []
         for i in range(0, self.k):
-            closest_k_indices.append(heapq.heappop(heap)[1])
+            current_smallest = heapq.heappop(heap)
+            closest_k_indices.append(current_smallest[1])
 
         return closest_k_indices
 
@@ -37,5 +38,6 @@ class KnnClassifier:
         indices = self.label_set[sub_training_set_indices]
         classes_counter = numpy.array([0] * 10)
         for index in indices:
+            index = index[0]
             classes_counter[index] = classes_counter[index] + 1
         return numpy.argmax(classes_counter)  # the classification
